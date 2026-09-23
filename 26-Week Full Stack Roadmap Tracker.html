@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>26-Week Full Stack Roadmap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0E2035;
+  --bg2:#0A1826;
+  --panel:#132A44;
+  --panel-line:rgba(142,202,230,0.14);
+  --grid:rgba(142,202,230,0.06);
+  --ink:#E7EEF5;
+  --muted:#8CA3BC;
+  --amber:#E0812E;
+  --amber-dim:rgba(224,129,46,0.18);
+  --green:#6FCF97;
+  --green-dim:rgba(111,207,151,0.16);
+  --line:#3E5B78;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;}
+html{scroll-padding-top:env(safe-area-inset-top,0px);}
+body{
+  margin:0;
+  background:
+    linear-gradient(var(--grid) 1px, transparent 1px) 0 0/32px 32px,
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px) 0 0/32px 32px,
+    var(--bg);
+  color:var(--ink);
+  font-family:'Inter',system-ui,sans-serif;
+  min-height:100%;
+}
+.wrap{max-width:760px;margin:0 auto;padding:28px 18px 80px;}
+header.top{
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:20;
+  background:linear-gradient(180deg, var(--bg2) 80%, transparent);
+  padding:16px 0 14px;margin-bottom:18px;
+  border-bottom:1px solid var(--panel-line);
+}
+.title-row{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+h1{
+  font-family:'Space Grotesk',sans-serif;font-weight:700;
+  font-size:22px;letter-spacing:0.01em;margin:0;
+}
+.stamp{
+  font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--amber);
+  border:1px solid var(--amber);border-radius:2px;padding:3px 8px;
+  transform:rotate(-2deg);white-space:nowrap;
+}
+.overall-track{
+  margin-top:12px;height:10px;border-radius:5px;background:var(--panel);
+  border:1px solid var(--panel-line);overflow:hidden;
+}
+.overall-fill{height:100%;background:linear-gradient(90deg,var(--amber),var(--green));width:0%;transition:width .4s ease;}
+.overall-meta{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted);margin-top:6px;}
+
+.phase{
+  border:1px solid var(--panel-line);border-radius:8px;background:var(--panel);
+  margin-bottom:14px;overflow:hidden;
+}
+.phase>summary{
+  list-style:none;cursor:pointer;padding:14px 16px;display:flex;align-items:center;gap:12px;
+  position:relative;
+}
+.phase>summary::-webkit-details-marker{display:none;}
+.phase>summary::before{
+  content:'▸';font-family:monospace;color:var(--muted);transition:transform .2s ease;flex:0 0 auto;
+}
+.phase[open]>summary::before{transform:rotate(90deg);}
+.phase-num{
+  font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--amber);
+  border:1px solid var(--amber);border-radius:2px;padding:1px 6px;flex:0 0 auto;
+}
+.phase-title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15.5px;flex:1 1 auto;min-width:0;}
+.phase-subtitle{display:block;font-family:'Inter';font-weight:400;font-size:12px;color:var(--muted);margin-top:2px;}
+.phase-pct{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted);flex:0 0 auto;}
+.phase-body{padding:0 16px 16px;border-top:1px solid var(--panel-line);}
+
+details.week{margin-top:14px;}
+details.week>summary{
+  list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;
+  font-family:'Space Grotesk',sans-serif;font-size:13.5px;color:var(--ink);
+  padding:8px 0;border-bottom:1px dashed var(--panel-line);
+}
+details.week>summary::-webkit-details-marker{display:none;}
+details.week>summary::before{content:'–';color:var(--muted);font-family:monospace;}
+details.week:not([open])>summary::before{content:'+';}
+.week-pct{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted);}
+
+.days-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;margin-top:10px;
+}
+.day-card{
+  border:1px solid var(--panel-line);border-radius:6px;padding:10px 12px;background:var(--bg2);
+  position:relative;
+}
+.day-card.complete{border-color:var(--green);background:var(--green-dim);}
+.day-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.day-label{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--amber);}
+.day-card.complete .day-label{color:var(--green);}
+.task-row{display:flex;align-items:flex-start;gap:7px;font-size:12.5px;line-height:1.4;padding:2px 0;color:var(--ink);}
+.task-row input{margin-top:3px;accent-color:var(--amber);flex:0 0 auto;width:14px;height:14px;cursor:pointer;}
+.task-row.checked span{color:var(--muted);text-decoration:line-through;}
+
+.checklist-group{margin-top:10px;}
+.group-name{font-family:'Space Grotesk',sans-serif;font-size:12.5px;color:var(--muted);margin:14px 0 6px;text-transform:none;}
+.checklist-group:first-of-type .group-name{margin-top:4px;}
+.flat-tasks{display:flex;flex-direction:column;gap:2px;}
+.flat-tasks .task-row{
+  border-bottom:1px solid var(--grid);padding:7px 2px;
+}
+.flat-tasks .task-row:last-child{border-bottom:none;}
+.flat-tasks .task-row input{width:15px;height:15px;}
+.flat-tasks .task-row span{font-size:13px;}
+
+.targets{
+  margin-top:22px;border:1px solid var(--panel-line);border-radius:8px;background:var(--panel);padding:16px;
+}
+.targets h2{font-family:'Space Grotesk',sans-serif;font-size:15px;margin:0 0 10px;}
+.target-row{display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:6px 0;border-bottom:1px solid var(--grid);}
+.target-row:last-child{border-bottom:none;}
+.target-skill{color:var(--ink);}
+.target-level{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--amber);border:1px solid var(--amber-dim);background:var(--amber-dim);border-radius:3px;padding:2px 8px;}
+
+.reset-row{margin-top:20px;text-align:center;}
+.reset-btn{
+  font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted);
+  background:none;border:1px solid var(--panel-line);border-radius:4px;padding:7px 14px;cursor:pointer;
+}
+.reset-btn:hover{color:var(--ink);border-color:var(--muted);}
+
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){
+    --bg:#0E2035;--bg2:#0A1826;--panel:#132A44;--ink:#E7EEF5;--muted:#8CA3BC;
+  }
+}
+:root[data-theme="dark"]{}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="title-row">
+      <h1>26-Week Full Stack Roadmap</h1>
+      <span class="stamp">PROGRESS LOG</span>
+    </div>
+    <div class="overall-track"><div class="overall-fill" id="overallFill"></div></div>
+    <div class="overall-meta"><span id="overallText">0 / 0 tasks</span><span id="overallPct">0%</span></div>
+  </header>
+
+  <div id="phases"></div>
+
+  <div class="targets">
+    <h2>Final Target</h2>
+    <div id="targetsList"></div>
+  </div>
+
+  <div class="reset-row">
+    <button class="reset-btn" id="resetBtn">Reset all progress</button>
+  </div>
+</div>
+
+<script>
+const DATA = {"phases": [{"title": "Phase 1 \u2014 Java + DSA", "kind": "days", "weeks": [["Week 1 \u2014 Java Collections", [["Day 1", ["ArrayList", "LinkedList", "Practice 3 problems"]], ["Day 2", ["HashSet", "TreeSet", "Set vs List"]], ["Day 3", ["HashMap", "HashMap internals", "3 problems"]], ["Day 4", ["TreeMap", "LinkedHashMap", "When to use each"]], ["Day 5", ["Queue", "Deque", "PriorityQueue"]], ["Day 6", ["Stack", "Collections complexity", "5 problems"]], ["Day 7", ["Revision", "10-question Java quiz", "Catch-up"]]]], ["Week 2 \u2014 Java 8+", [["Day 8", ["Lambda expressions", "Functional interfaces"]], ["Day 9", ["Predicate", "Function", "Consumer", "Supplier"]], ["Day 10", ["Stream API basics", "map/filter"]], ["Day 11", ["sorted", "distinct", "limit", "skip"]], ["Day 12", ["reduce", "collect", "groupingBy"]], ["Day 13", ["Optional", "Method references"]], ["Day 14", ["Java 8 revision", "5 coding problems"]]]], ["Week 3 \u2014 Advanced Core Java", [["Day 15", ["equals/hashCode", "Comparable"]], ["Day 16", ["Comparator", "Sorting objects"]], ["Day 17", ["Generics", "Wildcards"]], ["Day 18", ["Exception handling", "Custom exceptions"]], ["Day 19", ["Immutable objects", "String/StringBuilder"]], ["Day 20", ["Multithreading basics", "Thread/Runnable"]], ["Day 21", ["Revision", "Core Java interview questions"]]]], ["Week 4 \u2014 DSA Foundations", [["Day 22", ["Big-O", "Arrays", "3 problems"]], ["Day 23", ["Strings", "Frequency counting"]], ["Day 24", ["HashMap pattern", "HashSet pattern", "4 problems"]], ["Day 25", ["Two pointers", "3 problems"]], ["Day 26", ["Sliding window", "3 problems"]], ["Day 27", ["Binary search", "3 problems"]], ["Day 28", ["Revision", "10 mixed problems"]]]]]}, {"title": "Phase 2 \u2014 Spring Boot", "kind": "days", "weeks": [["Week 5 \u2014 Spring Fundamentals", [["Day 29", ["Spring architecture", "IoC", "DI"]], ["Day 30", ["Beans", "Component/Service/Repository"]], ["Day 31", ["Spring Boot project structure"]], ["Day 32", ["Configuration", "Profiles", "Environment variables"]], ["Day 33", ["REST controllers", "GET/POST"]], ["Day 34", ["PUT/PATCH/DELETE", "HTTP status codes"]], ["Day 35", ["Build first complete CRUD API"]]]], ["Week 6 \u2014 Database + JPA", [["Day 36", ["PostgreSQL basics", "Database design"]], ["Day 37", ["JPA", "Entity", "Repository"]], ["Day 38", ["One-to-one", "One-to-many"]], ["Day 39", ["Many-to-many", "Join tables"]], ["Day 40", ["JPQL", "Custom queries"]], ["Day 41", ["Pagination", "Sorting", "Filtering"]], ["Day 42", ["Database revision", "Improve project"]]]], ["Week 7 \u2014 Production APIs", [["Day 43", ["DTOs", "Request/Response models"]], ["Day 44", ["Validation", "@Valid"]], ["Day 45", ["Global exception handling"]], ["Day 46", ["Logging", "Error handling"]], ["Day 47", ["Transactions", "@Transactional"]], ["Day 48", ["API documentation", "Swagger/OpenAPI"]], ["Day 49", ["Refactor your project"]]]], ["Week 8 \u2014 Security", [["Day 50", ["Authentication vs authorization"]], ["Day 51", ["Spring Security basics"]], ["Day 52", ["Password hashing"]], ["Day 53", ["JWT authentication"]], ["Day 54", ["Roles & permissions"]], ["Day 55", ["RBAC implementation"]], ["Day 56", ["Secure your project completely"]]]]]}, {"title": "Phase 3 \u2014 Spring Boot Deep Dive", "kind": "days", "weeks": [["Week 9", [["Day 57", ["Hibernate internals"]], ["Day 58", ["Lazy vs Eager loading"]], ["Day 59", ["N+1 problem"]], ["Day 60", ["Entity relationships optimization"]], ["Day 61", ["Transactions deep dive"]], ["Day 62", ["Database indexes"]], ["Day 63", ["Performance debugging"]]]], ["Week 10", [["Day 64", ["Unit testing"]], ["Day 65", ["Mockito"]], ["Day 66", ["Integration testing"]], ["Day 67", ["Testcontainers basics"]], ["Day 68", ["Redis basics"]], ["Day 69", ["Spring caching"]], ["Day 70", ["Add caching + tests to project"]]]]]}, {"title": "Phase 4 \u2014 React + Next.js", "kind": "checklist", "subtitle": "Weeks 11\u201312 \u00b7 Days 71\u201384 \u00b7 2h React/Next + 1h project daily. By Day 84, Spring backend and React frontend should work together.", "items": ["React hooks", "State management", "Forms", "API integration", "React Query", "Error/loading states", "Authentication", "Protected routes", "Performance", "Component architecture"]}, {"title": "Phase 5 \u2014 Node.js", "kind": "checklist", "subtitle": "Weeks 13\u201314 \u00b7 Days 85\u201398 \u00b7 Don't spend too much time here \u2014 you're already working with Node.", "items": ["Node.js fundamentals", "Express", "TypeScript", "Middleware", "Async programming", "Error handling", "Prisma", "PostgreSQL", "Authentication", "Redis", "Background jobs", "WebSockets", "Testing", "Build a small Node service"]}, {"title": "Phase 6 \u2014 SQL + DSA", "kind": "checklist2", "subtitle": "Weeks 15\u201318 \u00b7 Days 99\u2013126 \u00b7 Target: 100\u2013120 quality DSA problems, not 500 random problems.", "groups": [["SQL", ["JOINs", "GROUP BY", "HAVING", "Subqueries", "CTEs", "Window functions", "Indexes", "Transactions", "Query optimization", "EXPLAIN"]], ["DSA", ["Arrays", "Strings", "HashMap", "Two pointers", "Sliding window", "Stack", "Queue", "Linked List", "Binary Search", "Trees", "Heap", "Graph basics", "Recursion", "Backtracking", "Dynamic Programming basics"]]]}, {"title": "Phase 7 \u2014 System Design", "kind": "checklist2", "subtitle": "Weeks 19\u201322 \u00b7 Days 127\u2013154", "groups": [["Fundamentals", ["Scalability", "Load balancing", "Caching", "CDN", "Database indexing", "Replication", "Sharding", "Message queues", "Kafka", "Rate limiting", "API Gateway", "Microservices", "CAP theorem"]], ["Design practice", ["URL Shortener", "WhatsApp", "Instagram", "Uber", "E-commerce", "Notification System", "File Storage System", "SaaS platform"]]]}, {"title": "Final 4 Weeks \u2014 Interview Mode", "kind": "checklist2", "subtitle": "Days 155\u2013182 \u00b7 Repeat this checklist every day", "groups": [["Coding", ["2 DSA problems"]], ["Java", ["5 Java interview questions"]], ["Spring", ["5 Spring Boot questions"]], ["SQL", ["2 SQL problems"]], ["System Design", ["1 design discussion"]], ["Project", ["Improve one production-level feature"]], ["Interview", ["Explain one concept without looking at notes"]]]}], "targets": [["Java", "Strong"], ["Spring Boot", "Strong"], ["React", "Strong"], ["Next.js", "Good"], ["Node.js", "Good"], ["SQL", "Strong"], ["DSA", "Interview-ready"], ["System Design", "Junior/Mid-level"], ["Git", "Strong"], ["Testing", "Good"], ["Docker", "Good to know"], ["Kafka", "Fundamentals"]]};
+const STORE_KEY = 'roadmap-progress-v1';
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORE_KEY);
+    return raw ? JSON.parse(raw) : {};
+  }catch(e){ return {}; }
+}
+function saveState(state){
+  try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }catch(e){}
+}
+let state = loadState();
+
+function taskId(...parts){ return parts.join('::'); }
+
+function allTaskIds(){
+  const ids = [];
+  DATA.phases.forEach((phase, pi) => {
+    if(phase.kind === 'days'){
+      phase.weeks.forEach((week, wi) => {
+        week[1].forEach((day, di) => {
+          day[1].forEach((task, ti) => ids.push(taskId('p',pi,'w',wi,'d',di,'t',ti)));
+        });
+      });
+    } else if(phase.kind === 'checklist'){
+      phase.items.forEach((item, ii) => ids.push(taskId('p',pi,'i',ii)));
+    } else if(phase.kind === 'checklist2'){
+      phase.groups.forEach((group, gi) => {
+        group[1].forEach((item, ii) => ids.push(taskId('p',pi,'g',gi,'i',ii)));
+      });
+    }
+  });
+  return ids;
+}
+
+function render(){
+  const container = document.getElementById('phases');
+  container.innerHTML = '';
+  DATA.phases.forEach((phase, pi) => {
+    const det = document.createElement('details');
+    det.className = 'phase';
+    det.open = pi === 0;
+
+    const summary = document.createElement('summary');
+    const phaseIds = phaseTaskIds(pi);
+    summary.innerHTML = `
+      <span class="phase-num">${String(pi+1).padStart(2,'0')}</span>
+      <span class="phase-title">${phase.title}${phase.subtitle ? `<span class="phase-subtitle">${phase.subtitle}</span>` : ''}</span>
+      <span class="phase-pct" data-phasepct="${pi}"></span>
+    `;
+    det.appendChild(summary);
+
+    const body = document.createElement('div');
+    body.className = 'phase-body';
+
+    if(phase.kind === 'days'){
+      phase.weeks.forEach((week, wi) => {
+        const wdet = document.createElement('details');
+        wdet.className = 'week';
+        wdet.open = true;
+        const wsum = document.createElement('summary');
+        wsum.innerHTML = `<span>${week[0]}</span><span class="week-pct" data-weekpct="${pi}-${wi}"></span>`;
+        wdet.appendChild(wsum);
+        const grid = document.createElement('div');
+        grid.className = 'days-grid';
+        week[1].forEach((day, di) => {
+          const card = document.createElement('div');
+          card.className = 'day-card';
+          card.dataset.daycard = `${pi}-${wi}-${di}`;
+          let rows = '';
+          day[1].forEach((task, ti) => {
+            const id = taskId('p',pi,'w',wi,'d',di,'t',ti);
+            const checked = !!state[id];
+            rows += `<label class="task-row${checked?' checked':''}" data-taskrow="${id}">
+              <input type="checkbox" data-task="${id}" ${checked?'checked':''}>
+              <span>${task}</span>
+            </label>`;
+          });
+          card.innerHTML = `<div class="day-head"><span class="day-label">${day[0]}</span></div>${rows}`;
+          grid.appendChild(card);
+        });
+        wdet.appendChild(grid);
+        body.appendChild(wdet);
+      });
+    } else if(phase.kind === 'checklist'){
+      const flat = document.createElement('div');
+      flat.className = 'flat-tasks';
+      phase.items.forEach((item, ii) => {
+        const id = taskId('p',pi,'i',ii);
+        const checked = !!state[id];
+        flat.innerHTML += `<label class="task-row${checked?' checked':''}" data-taskrow="${id}">
+          <input type="checkbox" data-task="${id}" ${checked?'checked':''}>
+          <span>${item}</span>
+        </label>`;
+      });
+      body.appendChild(flat);
+    } else if(phase.kind === 'checklist2'){
+      phase.groups.forEach((group, gi) => {
+        const gname = document.createElement('div');
+        gname.className = 'group-name';
+        gname.textContent = group[0];
+        body.appendChild(gname);
+        const flat = document.createElement('div');
+        flat.className = 'flat-tasks';
+        group[1].forEach((item, ii) => {
+          const id = taskId('p',pi,'g',gi,'i',ii);
+          const checked = !!state[id];
+          flat.innerHTML += `<label class="task-row${checked?' checked':''}" data-taskrow="${id}">
+            <input type="checkbox" data-task="${id}" ${checked?'checked':''}>
+            <span>${item}</span>
+          </label>`;
+        });
+        body.appendChild(flat);
+      });
+    }
+
+    det.appendChild(body);
+    container.appendChild(det);
+  });
+
+  container.querySelectorAll('input[data-task]').forEach(cb => {
+    cb.addEventListener('change', onToggle);
+  });
+
+  renderTargets();
+  updateAllProgress();
+}
+
+function phaseTaskIds(pi){
+  const phase = DATA.phases[pi];
+  const ids = [];
+  if(phase.kind === 'days'){
+    phase.weeks.forEach((week, wi) => week[1].forEach((day, di) => day[1].forEach((t, ti) => ids.push(taskId('p',pi,'w',wi,'d',di,'t',ti)))));
+  } else if(phase.kind === 'checklist'){
+    phase.items.forEach((item, ii) => ids.push(taskId('p',pi,'i',ii)));
+  } else if(phase.kind === 'checklist2'){
+    phase.groups.forEach((group, gi) => group[1].forEach((item, ii) => ids.push(taskId('p',pi,'g',gi,'i',ii))));
+  }
+  return ids;
+}
+
+function weekTaskIds(pi, wi){
+  const phase = DATA.phases[pi];
+  const ids = [];
+  phase.weeks[wi][1].forEach((day, di) => day[1].forEach((t, ti) => ids.push(taskId('p',pi,'w',wi,'d',di,'t',ti))));
+  return ids;
+}
+
+function dayTaskIds(pi, wi, di){
+  const phase = DATA.phases[pi];
+  const ids = [];
+  phase.weeks[wi][1][di][1].forEach((t, ti) => ids.push(taskId('p',pi,'w',wi,'d',di,'t',ti)));
+  return ids;
+}
+
+function pct(ids){
+  if(ids.length === 0) return 0;
+  const done = ids.filter(id => state[id]).length;
+  return Math.round((done/ids.length)*100);
+}
+
+function onToggle(e){
+  const id = e.target.dataset.task;
+  state[id] = e.target.checked;
+  saveState(state);
+  const row = document.querySelector(`[data-taskrow="${CSS.escape(id)}"]`);
+  if(row) row.classList.toggle('checked', e.target.checked);
+  updateAllProgress();
+}
+
+function updateAllProgress(){
+  DATA.phases.forEach((phase, pi) => {
+    const ids = phaseTaskIds(pi);
+    const p = pct(ids);
+    const el = document.querySelector(`[data-phasepct="${pi}"]`);
+    if(el) el.textContent = `${p}%`;
+    if(phase.kind === 'days'){
+      phase.weeks.forEach((week, wi) => {
+        const wids = weekTaskIds(pi, wi);
+        const wp = pct(wids);
+        const wel = document.querySelector(`[data-weekpct="${pi}-${wi}"]`);
+        if(wel) wel.textContent = `${wp}%`;
+        week[1].forEach((day, di) => {
+          const dids = dayTaskIds(pi, wi, di);
+          const complete = dids.length > 0 && dids.every(id => state[id]);
+          const card = document.querySelector(`[data-daycard="${pi}-${wi}-${di}"]`);
+          if(card) card.classList.toggle('complete', complete);
+        });
+      });
+    }
+  });
+  const all = allTaskIds();
+  const doneCount = all.filter(id => state[id]).length;
+  const overallPct = all.length ? Math.round((doneCount/all.length)*100) : 0;
+  document.getElementById('overallFill').style.width = overallPct + '%';
+  document.getElementById('overallText').textContent = `${doneCount} / ${all.length} tasks`;
+  document.getElementById('overallPct').textContent = overallPct + '%';
+}
+
+function renderTargets(){
+  const list = document.getElementById('targetsList');
+  list.innerHTML = DATA.targets.map(([skill, level]) =>
+    `<div class="target-row"><span class="target-skill">${skill}</span><span class="target-level">${level}</span></div>`
+  ).join('');
+}
+
+document.getElementById('resetBtn').addEventListener('click', () => {
+  if(confirm('Reset all checked progress? This cannot be undone.')){
+    state = {};
+    saveState(state);
+    render();
+  }
+});
+
+render();
+</script>
+</body>
+</html>
